@@ -109,12 +109,7 @@
   [ui/MuiThemeProvider
     [:div
       [:h1 "Landing page."]
-      [ui/RaisedButton {:background-color "#098AA0"
-                       :onClick #((reset! page #'login/login-page))
-                       :label "Login"}]
-     [ui/RaisedButton {:background-color "#098AA0"
-                      :onClick #((reset! page #'calendar/calendar-page))
-                      :label "Calendar"}]]])
+      (stuff)]])
 
 ;; -------------------------
 ;; Routes
@@ -126,6 +121,15 @@
 
 (secretary/defroute "/" []
   (reset! page #'main-page))
+
+(defn stuff []
+  [:div
+  [ui/RaisedButton {:background-color "#098AA0"
+                   :onClick #((reset! page #'login/login-page))
+                   :label "Login"}]
+ [ui/RaisedButton {:background-color "#098AA0"
+                  :onClick #((reset! page #'calendar/calendar-page))
+                  :label "Calendar"}]])
 
 
 ;; -------------------------
