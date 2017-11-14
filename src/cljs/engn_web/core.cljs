@@ -6,7 +6,9 @@
               [cljs-time.format :as time-format]
               [cljs-time.coerce :as time-coerce]
               [reagent-material-ui.core :as ui]
-              [ajax.core :refer [GET POST]]))
+              [ajax.core :refer [GET POST]]
+              [engn-web.login :as login]
+              [engn-web.calendar :as calendar]))
 
 
 ;; ==========================================================================
@@ -106,7 +108,10 @@
 (defn main-page []
   [ui/MuiThemeProvider
     [:div
-      [:h1 "Landing page."]]])
+      [:h1 "Landing page."]
+      (login/login-page)
+      (calendar/calendar-page)
+      ]])
 
 ;; -------------------------
 ;; Routes

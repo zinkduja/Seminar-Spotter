@@ -2,7 +2,6 @@
   (:require [compojure.core :refer [GET POST defroutes]]
             [compojure.route :refer [not-found resources]]
             [config.core :refer [env]]
-            [engn-web.login :as login]
             [engn-web.middleware :refer [wrap-middleware]]
             [hiccup.page :refer [include-js include-css html5]]
             [ring.middleware.json :as json]
@@ -94,7 +93,7 @@
 ;;
 (defroutes routes
   (GET "/" request (main-page))
-  (GET "/login" [] (login/login-page))
+  ;(GET "/login" [] (login/login-page))
   ;(GET "/greet/:name" [name] (greet-handler name))
   ;(GET "/greet" [greeting] (set-greeting-handler greeting))
   ;(GET "/price/:item" [item] (price-handler item))
