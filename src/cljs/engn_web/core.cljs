@@ -106,7 +106,10 @@
 ;          [ui/CardText
 ;            [:h1 (str item-name " costs " price)]]]]]))
 
+;TODO -- switch login/get-data to better location
+
 (defn main-page []
+  (login/get-data)
   [ui/MuiThemeProvider
     [:div
       [:h1 "Landing page."]
