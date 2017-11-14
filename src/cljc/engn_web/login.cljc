@@ -1,26 +1,15 @@
 (ns engn-web.login
-  (:require [ajax.core :refer [GET POST]]))
+  (:require [engn-web.html_data :as html_data])
+  )
 
-(defonce history (atom ""))
+;; ==========================================================================
+;; Basic login page
+;; ==========================================================================
 
-(defn handle-webpage [result]
-  (reset! history result))
-
-
-(defn get-webpage [name]
-  (GET (str "/webpage/" name)
-        {:keywords? true
-        :keywordize-keys true
-        :handler handle-webpage}))
-
-
-(defn get-data []
-  (get-webpage "math"))
+;for testing html_data functions
+;(defn login-page []
+;  (html_data/html-page))
 
 (defn login-page []
   [:div
-    [:h1 "Login page."]
-    [:h4 @history]
-    ])
-
-;(get-webpage "https://as.vanderbilt.edu/history/calendar.php")
+    [:h1 "Login page."]])

@@ -7,7 +7,8 @@
             [hiccup.page :refer [include-js include-css html5]]
             [ring.middleware.json :as json]
             [ring.middleware.cookies :refer [wrap-cookies]]
-            [ring.middleware.params :refer [wrap-params]]))
+            [ring.middleware.params :refer [wrap-params]]
+            [clojure.string :as string]))
 
 ;; ==========================================================================
 ;; Utility functions for serving up a JSON REST API
@@ -65,7 +66,11 @@
 
 
 (defn get-html [dept]
-  (str (client/get "https://as.vanderbilt.edu/math/category/events/")))
+  (let [html (get (client/get "https://as.vanderbilt.edu/math/category/events/") :body)
+        index1 (string/index-of html "<div class=\"eventitem\">")
+        index2 (string/index-of html "</div><!-- /secmain -->")
+        new-html (subs html index1 index2)]
+  new-html))
 
 (defn get-html-handler [dept]
   (cond
@@ -98,10 +103,6 @@
 (defroutes routes
   (GET "/" request (main-page))
   (GET "/webpage/:dept" [dept] (get-html-handler dept))
-  ;(GET "/greet/:name" [name] (greet-handler name))
-  ;(GET "/greet" [greeting] (set-greeting-handler greeting))
-  ;(GET "/price/:item" [item] (price-handler item))
-  ;(GET "/price" [price] (set-price-handler price))
   ;(GET "/echo/:ping" [ping pong] (echo-handler ping pong))
   ;; Routes down here handle static files and not found
   (resources "/")
