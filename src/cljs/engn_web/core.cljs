@@ -34,7 +34,7 @@
 ;; App State
 ;; ==========================================================================
 
-(def page (atom null))
+(def page (atom nil))
 ;(defonce channels (atom []))
 ;(defonce current-channel (atom ""))
 ;(defonce add-channel-dialog-open? (atom false))
