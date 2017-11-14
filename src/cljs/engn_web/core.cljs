@@ -109,9 +109,12 @@
   [ui/MuiThemeProvider
     [:div
       [:h1 "Landing page."]
-      (login/login-page)
-      (calendar/calendar-page)
-      ]])
+      [ui/RaisedButton {:background-color "#098AA0"
+                       :onClick #((reset! page #'login/login-page))
+                       :label "Login"}]
+     [ui/RaisedButton {:background-color "#098AA0"
+                      :onClick #((reset! page #'calendar/calendar-page))
+                      :label "Calendar"}]]])
 
 ;; -------------------------
 ;; Routes
