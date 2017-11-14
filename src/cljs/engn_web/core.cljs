@@ -34,6 +34,7 @@
 ;; App State
 ;; ==========================================================================
 
+(def page (atom null))
 ;(defonce channels (atom []))
 ;(defonce current-channel (atom ""))
 ;(defonce add-channel-dialog-open? (atom false))
@@ -109,27 +110,23 @@
   [ui/MuiThemeProvider
     [:div
       [:h1 "Landing page."]
-      (stuff)]])
+      [ui/RaisedButton {:background-color "#098AA0"
+                       :onClick #((reset! page #'login/login-page))
+                       :label "Login"}]
+     [ui/RaisedButton {:background-color "#098AA0"
+                      :onClick #((reset! page #'calendar/calendar-page))
+                      :label "Calendar"}]]])
 
 ;; -------------------------
 ;; Routes
 
-(def page (atom #'main-page))
+(reset! page #'main-page)
 
 (defn current-page []
   [:div [@page]])
 
 (secretary/defroute "/" []
   (reset! page #'main-page))
-
-(defn stuff []
-  [:div
-  [ui/RaisedButton {:background-color "#098AA0"
-                   :onClick #((reset! page #'login/login-page))
-                   :label "Login"}]
- [ui/RaisedButton {:background-color "#098AA0"
-                  :onClick #((reset! page #'calendar/calendar-page))
-                  :label "Calendar"}]])
 
 
 ;; -------------------------
