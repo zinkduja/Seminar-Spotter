@@ -1,6 +1,6 @@
-(ns engn-web.pretty_print
+(ns engn-web.prettyprint
   (:require [clojure.string :as string]
-            [engn-web.html_data :as html_data]
+            [engn-web.htmldata :as html_data]
             [reagent-material-ui.core :as ui]))
 
 (defn print-events []

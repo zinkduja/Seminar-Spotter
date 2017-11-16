@@ -1,6 +1,6 @@
 (ns engn-web.login
-  (:require [engn-web.html_data :as html_data]
-            [engn-web.pretty_print :as pretty_print]))
+  (:require [engn-web.htmldata :as html_data]
+            [engn-web.prettyprint :as pretty_print]))
 
 
 ;; ==========================================================================

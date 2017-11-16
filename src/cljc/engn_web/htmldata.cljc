@@ -1,4 +1,4 @@
-(ns engn-web.html_data
+(ns engn-web.htmldata
   (:require [ajax.core :refer [GET POST]]
             [clojure.string :as string]))
 
