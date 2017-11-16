@@ -28,7 +28,7 @@
 (defn sep-math-date-time [datetime]
   (let [sep (string/split datetime ",")
         sep-no-day (concat [(get sep 0)] [(subs (get sep 1) 0 5)] [(get sep 2)])]
-  (into [] sep-no-day)))
+   (into [] sep-no-day)))
 
 ;for math dept, get the topics
 (defn extract-math-topics [event]
@@ -114,7 +114,7 @@
 ; TODO - split handler
 (defn get-webpage [name]
   (GET (str "/webpage/" name)
-        {:keywords? true
+       {:keywords? true
         :keywordize-keys true
         :handler handle-math}))
 
@@ -123,12 +123,14 @@
 (defn get-data []
   (get-webpage "math"))
 
+(defn get-events []
+  (get-math-atom))
+
 ;; ==========================================================================
 ;; Basic login page
 ;; ==========================================================================
 
-(defn html-page []
-  [:div
-    [:h1 "Login page."]
-    [:h4 (str (get-math-atom))]
-    ])
+; (defn html-page []
+;   [:div
+;     [:h1 "Login page."]
+;     [:h4 (pretty_print/print-events get-math-atom)]])
