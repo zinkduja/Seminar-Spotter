@@ -36,9 +36,6 @@
 ;; ==========================================================================
 
 (def page (atom nil))
-;(defonce channels (atom []))
-;(defonce current-channel (atom ""))
-;(defonce add-channel-dialog-open? (atom false))
 ;(defonce user (js->clj js/user :keywordize-keys true))
 
 
@@ -46,24 +43,12 @@
 ;; Functions to send / receive messages and list channels
 ;; ==========================================================================
 
-;(GET "/channel" {:response-format :json
-;                 :keywords? true
-;                 :error-handler error-handler
-;                 :handler (fn [r] (reset! channels r)(println "swap done: " @channels))})
-
 ;(defn messages-load [channel]
 ;  (GET (str "/channel/" channel)
 ;       {:response-format :json
 ;        :keywords? true
 ;        :error-handler error-handler
 ;        :handler (fn [r] (println r)(reset! msgs r))}))
-
-;(defn open-channel [channel]
-;   (reset! current-channel channel)
-;   (messages-load channel))
-;
-;(defn push [msgs msg]
-;  (conj (seq msgs) msg))
 
 
 ;; ==========================================================================
@@ -79,43 +64,19 @@
 ;      [ui/RaisedButton {:label "Set Server Price"
 ;                        :on-click #(set-price! (:price-for-server @state))}]]])
 
-;(defn price-control []
-;  [ui/Card
-;    [ui/CardText
-;      [ui/TextField
-;        {:floatingLabelText "What are we buying?"
-;        :onChange #(swap! state assoc :item %2)}]
-;      [ui/RaisedButton {:label "Buy"
-;                        :on-click #(get-price! (:item @state))}]]])
 
-
-;(defn main-page []
-;  (let [greeting (:greeting @state)
-;        hello    (:hello @state)
-;        price (:price @state)
-;        item-name (:item-name @state)]
-;    [ui/MuiThemeProvider ;theme-defaults
-;      [:div
-;        [set-greeting-control]
-;        [greet-control]
-;        [ui/Card
-;          [ui/CardText
-;            [:h1 (str greeting " " hello)]]]
-;        [set-price-control]
-;        [price-control]
-;        [ui/Card
-;          [ui/CardText
-;            [:h1 (str item-name " costs " price)]]]]]))
-
+(defn home-page []
+  [:div
+    [:h1 "Seminar Spotter."]
+    [:img {:src "/img/seminar_man.png"}]])
 
 (defn main-page []
   (html_data/get-data)
   [ui/MuiThemeProvider
       [ui/Tabs
        [ui/Tab {:label "Home"}
-        [:div]
-        [:h1 "Seminar Spotter."]]
-       [ui/Tab {:label "Login Page"}
+        (home-page)]
+       [ui/Tab {:label "Login"}
         (login/login-page)]
        [ui/Tab {:label "Calendar"}
         (calendar/calendar-page)]]])
