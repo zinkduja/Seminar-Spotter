@@ -2,11 +2,13 @@
   (:require [compojure.core :refer [GET POST defroutes]]
             [compojure.route :refer [not-found resources]]
             [config.core :refer [env]]
+            [clj-http.client :as client]
             [engn-web.middleware :refer [wrap-middleware]]
             [hiccup.page :refer [include-js include-css html5]]
             [ring.middleware.json :as json]
             [ring.middleware.cookies :refer [wrap-cookies]]
-            [ring.middleware.params :refer [wrap-params]]))
+            [ring.middleware.params :refer [wrap-params]]
+            [clojure.string :as string]))
 
 ;; ==========================================================================
 ;; Utility functions for serving up a JSON REST API
@@ -62,8 +64,21 @@
 
 (defonce state (atom {:greeting "No greeting set yet..." :price "$1"}))
 
-(defn echo-handler [ping pong]
-  (json {:ping ping :pong pong}))
+
+(defn get-html [dept]
+  (let [html (get (client/get "https://as.vanderbilt.edu/math/category/events/") :body)
+        index1 (string/index-of html "<div class=\"eventitem\">")
+        index2 (string/index-of html "</div><!-- /secmain -->")
+        new-html (subs html index1 index2)]
+  new-html))
+
+(defn get-html-handler [dept]
+  (cond
+    (= dept "math") (get-html dept)
+    :else "not math"))
+
+;(defn echo-handler [ping pong]
+;  (json {:ping ping :pong pong}))
 
 ;(defn greet-handler [name]
 ;  (json {:hello name :greeting (:greeting @state)}))
@@ -85,20 +100,10 @@
 ;; and setup the appropriate middleware wrappers
 ;; ==========================================================================
 
-;; This section of the code defines how requests from your browser are routed
-;; to function calls.
-;;
-;; Complete documentation on everything you can do with the routing is available
-;; here: https://github.com/weavejester/compojure/wiki/Routes-In-Detail
-;;
 (defroutes routes
   (GET "/" request (main-page))
-  ;(GET "/login" [] (login/login-page))
-  ;(GET "/greet/:name" [name] (greet-handler name))
-  ;(GET "/greet" [greeting] (set-greeting-handler greeting))
-  ;(GET "/price/:item" [item] (price-handler item))
-  ;(GET "/price" [price] (set-price-handler price))
-  (GET "/echo/:ping" [ping pong] (echo-handler ping pong))
+  (GET "/webpage/:dept" [dept] (get-html-handler dept))
+  ;(GET "/echo/:ping" [ping pong] (echo-handler ping pong))
   ;; Routes down here handle static files and not found
   (resources "/")
   (not-found "Not Found"))

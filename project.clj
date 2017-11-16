@@ -22,7 +22,8 @@
                  [reagent-material-ui "0.2.4"]
                  [venantius/accountant "0.2.0"
                   :exclusions [org.clojure/tools.reader]]
-                 [auth0-ring "0.1.0"]]
+                 [auth0-ring "0.1.0"]
+                 [clj-http "2.3.0"]]
 
   :plugins [[lein-environ "1.0.2"]
             [lein-cljsbuild "1.1.5"]

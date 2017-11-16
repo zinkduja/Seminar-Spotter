@@ -8,7 +8,8 @@
               [reagent-material-ui.core :as ui]
               [ajax.core :refer [GET POST]]
               [engn-web.login :as login]
-              [engn-web.calendar :as calendar]))
+              [engn-web.calendar :as calendar]
+              [engn-web.html_data :as html_data]))
 
 
 ;; ==========================================================================
@@ -106,7 +107,9 @@
 ;          [ui/CardText
 ;            [:h1 (str item-name " costs " price)]]]]]))
 
+
 (defn main-page []
+  (html_data/get-data)
   [ui/MuiThemeProvider
       [ui/Tabs
        [ui/Tab {:label "Home"}
