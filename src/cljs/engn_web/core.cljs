@@ -9,6 +9,7 @@
               [ajax.core :refer [GET POST]]
               [engn-web.login :as login]
               [engn-web.calendar :as calendar]
+              [engn-web.upcoming :as upcoming]
               [engn-web.htmldata :as html_data]))
 
 
@@ -64,11 +65,14 @@
 ;      [ui/RaisedButton {:label "Set Server Price"
 ;                        :on-click #(set-price! (:price-for-server @state))}]]])
 
+;<link href="https://fonts.googleapis.com/css?family=Spectral+SC&effect=3d-float" rel="stylesheet">
+;font-family: 'Spectral SC', serif;
 
 (defn home-page []
   [:div
-    [:h1 "Seminar Spotter."]
-    [:img {:src "/img/seminar_man.png"}]])
+    [:h1 {:className "home-text font-effect-3d-float"} "Seminar Spotter"]
+    [:img {:src "/img/seminar_man.jpg" :className "home-image"}]
+    [:h3 {:className "home-text"} "See Vanderbilt's upcoming seminars all in one place."]])
 
 (defn main-page []
   (html_data/get-data)
@@ -78,6 +82,8 @@
         (home-page)]
        [ui/Tab {:label "Login"}
         (login/login-page)]
+       [ui/Tab {:label "Upcoming Events"}
+        (upcoming/upcoming-page)]
        [ui/Tab {:label "Calendar"}
         (calendar/calendar-page)]]])
 
@@ -109,6 +115,3 @@
        (secretary/locate-route path))})
   (accountant/dispatch-current!)
   (mount-root))
-
-
-;(load "login")

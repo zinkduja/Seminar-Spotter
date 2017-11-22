@@ -1,6 +1,5 @@
 (ns engn-web.login
-  (:require [engn-web.htmldata :as html_data]
-            [engn-web.prettyprint :as pretty_print]))
+  (:require [engn-web.htmldata :as html_data]))
 
 
 ;; ==========================================================================
@@ -10,9 +9,4 @@
 ;for testing html_data functions
 (defn login-page []
   [:div
-    [:h1 "Login page."]
-    (pretty_print/print-events)])
-
-;(defn login-page [])
-;  [:div])
-    ;[:h1 "Login page."]])
+    [:h1 "Login page."]])
