@@ -1,5 +1,3 @@
-Josie - currently working
-
 # Seminar-Spotter
 
 Josie Zink-Duda, Shreya Shanker, Paulina Memishian
