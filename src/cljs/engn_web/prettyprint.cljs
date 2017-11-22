@@ -16,13 +16,7 @@
 
 ; FOR THE LOGIN PAGE
 (def username-atom (atom ""))
-(defn password-atom (atom ""))
-
-(defn print-login []
-  [:div
-    [:form
-      [username-input]
-      [password-input]])
+(def password-atom (atom ""))
 
 (defn input-element
   "An input element which updates its value on change"
@@ -40,3 +34,12 @@
 
 (defn password-input []
   (input-element "password" "password" "password" password-atom))
+
+  (defn print-login []
+    [:div
+      [:form
+        [:h4 "Username: "]
+        [username-input]
+        [:br]
+        [:h4 "Password: "]
+        [password-input]]])
