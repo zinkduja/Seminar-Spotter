@@ -7,7 +7,6 @@
 ;; Upcoming events page
 ;; ==========================================================================
 
-;for testing html_data functions
 (defn upcoming-page []
   [:div
     [:h1 "Upcoming Events"]
