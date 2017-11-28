@@ -7,12 +7,12 @@
 ;; ==========================================================================
 
 (defonce math (atom ""))
-(defonce pysch (atom ""))
+(defonce psych (atom ""))
 
 (defn get-math-atom []
   @math)
 (defn get-psych-atom []
-  @pysch)
+  @psych)
 
 ;; ==========================================================================
 ;; Functions to get the data from the websites
@@ -117,21 +117,73 @@
     (reset! math []))) ;no math events
 
 ;; ==========================================================================
-;; PYSCH functions
+;; psych functions
 ;; ==========================================================================
 
-;for pysch dept, get the dates and times
-(defn extract-psych-dates [event]
-  (let [index1 (string/index-of event "</strong>")]
-    (subs event index1)))
+;count the number of times a substring occurs in a string
+(defn count-substring [txt sub]
+  (count (re-seq (re-pattern sub) txt)))
 
-;for psych dept, get dates, times, topics
+;for psych dept, get the dates and separate date and year
+;may need to return same date again for multiple events
+;return: [[month/date year]...]
+(defn extract-psych-dates [event]
+  (let [num-events (count-substring event "datetime")
+        index1 (string/index-of event "</strong>")
+        dateyear (subs event 0 index1)
+        sep (string/split dateyear ",")
+        sep-no-day (into [] (concat [(get sep 1)] [(get sep 2)]))]
+    (into [] (repeat num-events sep-no-day))))
+
+;for psych dept, remove outer [] on updates
+(defn fix-psych-dates [dates]
+  (let [flat (flatten dates)
+        new-dates (into [] (partition 2 flat))]
+    new-dates))
+
+;for psych dept, separate multiple times on same date
+(defn sep-psych-times [html-time]
+  (let [index1 (string/index-of html-time ">")
+        index2 (string/index-of html-time "</time>")
+        time (subs html-time (+ index1 1) index2)]
+    time))
+
+;for psych dept, get the times
+;return list of times (may be multiple events)
+(defn extract-psych-times [event]
+  (let [split (subvec (string/split event "<time") 1)
+        times (into [] (map sep-psych-times split))]
+    times))
+
+;for psych dept, separate multiple titles on same date
+(defn sep-psych-titles [html-title]
+  (let [index1 (string/index-of html-title ">")
+        index2 (string/index-of html-title "</a>")
+        title (subs html-title (+ index1 1) index2)]
+    title))
+
+;for psych dept, get the titles
+;return list of titles (may be multiple events)
+(defn extract-psych-titles [event]
+  (let [split (subvec (string/split event "<a") 1)
+        titles (into [] (map sep-psych-titles split))]
+    titles))
+
+;for psych dept, combine info into dictionary
+(defn combine-psych [date time title]
+  {:date (into [] date) :time time :title title})
+
+;for psych dept, get dates, times, titles
 ;final - return list of dictionaries
-(defn handle-pysch [html]
-  (if (string/includes? html "<div id=\"searchform\">") ;there are pysch events
-    (let [events (subvec (string/split html "<strong>") 1)]
-      (reset! pysch (get events 0)))
-    (reset! pysch []))) ;no pysch events
+(defn handle-psych [html]
+  (if (string/includes? html "<div id=\"searchform\">") ;there are psych events
+    (let [events (subvec (string/split html "<strong>") 1)
+          dates (into [] (map extract-psych-dates events))
+          times (into [] (map extract-psych-times events))
+          titles (into [] (map extract-psych-titles events))
+          combined (into [] (map combine-psych (fix-psych-dates dates) (flatten times) (flatten titles)))]
+      (reset! psych combined))
+    (reset! psych []))) ;no psych events
 
 ;; ==========================================================================
 ;; GET HTML functions
@@ -144,13 +196,13 @@
                       {:keywords? true
                       :keywordize-keys true
                       :handler handle-math})
-    (= name "pysch") (GET (str "/webpage/" name)
+    (= name "psych") (GET (str "/webpage/" name)
                       {:keywords? true
                       :keywordize-keys true
-                      :handler handle-pysch})))
+                      :handler handle-psych})))
 
 ;gets called when the app starts up to get all data
 ;from the selected departmenets
 (defn get-data []
   (get-webpage "math")
-  (get-webpage "pysch"))
+  (get-webpage "psych"))

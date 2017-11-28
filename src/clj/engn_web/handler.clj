@@ -70,7 +70,7 @@
         new-html (subs html index1 index2)]
    new-html))
 
-(defn get-pysch-html []
+(defn get-psych-html []
   (let [html (get (client/get "https://events.vanderbilt.edu/index.php?com=searchresult&t=364") :body)
         index1 (string/index-of html "<div id=\"searchform\">")
         index2 (string/index-of html "<!-- Right Column -->")
@@ -80,7 +80,7 @@
 (defn get-html-handler [dept]
   (cond
     (= dept "math") (get-math-html)
-    (= dept "pysch") (get-pysch-html)
+    (= dept "psych") (get-psych-html)
     :else "not a handled department"))
 
 ;; ==========================================================================
