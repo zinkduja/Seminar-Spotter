@@ -10,7 +10,7 @@
               [engn-web.login :as login]
               [engn-web.calendar :as calendar]
               [engn-web.upcoming :as upcoming]
-              [engn-web.htmldata :as html_data]))
+              [engn-web.htmldata :as htmldata]))
 
 
 ;; ==========================================================================
@@ -75,7 +75,7 @@
     [:h3 {:className "home-text"} "See Vanderbilt's upcoming seminars all in one place."]])
 
 (defn main-page []
-  (html_data/get-data)
+  (htmldata/get-data)
   [ui/MuiThemeProvider
       [ui/Tabs
        [ui/Tab {:label "Home"}

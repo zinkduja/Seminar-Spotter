@@ -113,10 +113,10 @@
       (reset! math combined))
     (reset! math []))) ;no math events
 
-;fetch html from correct webpage
-(defn get-handler [name]
-  (cond
-    ("h")))
+; ;fetch html from correct webpage
+; (defn get-handler [name]
+;   (cond
+;     ("h")))
 
 
 ; TODO - split handler

@@ -70,7 +70,7 @@
         index1 (string/index-of html "<div class=\"eventitem\">")
         index2 (string/index-of html "</div><!-- /secmain -->")
         new-html (subs html index1 index2)]
-  new-html))
+   new-html))
 
 (defn get-html-handler [dept]
   (cond
