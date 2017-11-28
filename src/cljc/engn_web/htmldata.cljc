@@ -122,12 +122,3 @@
 ;from the selected departmenets
 (defn get-data []
   (get-webpage "math"))
-
-;; ==========================================================================
-;; Basic login page
-;; ==========================================================================
-
-; (defn html-page []
-;   [:div
-;     [:h1 "Login page."]
-;     [:h4 (pretty_print/print-events get-math-atom)]])

@@ -3,5 +3,4 @@
 
 (defn calendar-page []
   [:div
-    [:h1 "Calendar page."]
-    (pretty_print/print-calendar)])
+    [:h1 "Calendar page."]])
