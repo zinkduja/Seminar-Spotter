@@ -7,9 +7,12 @@
 ;; ==========================================================================
 
 (defonce math (atom ""))
+(defonce pysch (atom ""))
 
 (defn get-math-atom []
   @math)
+(defn get-psych-atom []
+  @pysch)
 
 ;; ==========================================================================
 ;; Functions to get the data from the websites
@@ -111,6 +114,11 @@
     (reset! math []))) ;no math events
 
 ;fetch html from correct webpage
+(defn get-handler [name]
+  (cond
+    ("h")))
+
+
 ; TODO - split handler
 (defn get-webpage [name]
   (GET (str "/webpage/" name)
