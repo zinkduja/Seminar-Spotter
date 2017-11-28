@@ -18,6 +18,10 @@
 ;; Functions to get the data from the websites
 ;; ==========================================================================
 
+;; ==========================================================================
+;; MATH functions
+;; ==========================================================================
+
 ;for math dept, get the dates and times
 (defn extract-math-dates [event]
   (let [html-class "<span class=\"datetime\">"
@@ -97,7 +101,6 @@
   {:date date :topic topic :title title :speaker speaker :location loc :summary summary})
 
 ;for math dept, get dates, times, location, speaker, topic, title, summary
-;(get (get separated 0) 0) - inner get gets list, outer gets date/year/time
 ;final - return list of dictionaries
 (defn handle-math [html]
   (if (string/includes? html "<div class=\"eventitem\">") ;there are math events
@@ -113,8 +116,26 @@
       (reset! math combined))
     (reset! math []))) ;no math events
 
+;; ==========================================================================
+;; PYSCH functions
+;; ==========================================================================
+
+;for pysch dept, get the dates and times
+(defn extract-psych-dates [event]
+  (let [index1 (string/index-of event "</strong>")]
+    (subs event index1)))
+
+;for psych dept, get dates, times, topics
+;final - return list of dictionaries
 (defn handle-pysch [html]
-  (reset! pysch "hello"))
+  (if (string/includes? html "<div id=\"searchform\">") ;there are pysch events
+    (let [events (subvec (string/split html "<strong>") 1)]
+      (reset! pysch (get events 0)))
+    (reset! pysch []))) ;no pysch events
+
+;; ==========================================================================
+;; GET HTML functions
+;; ==========================================================================
 
 ;fetch html from correct webpage
 (defn get-webpage [name]
