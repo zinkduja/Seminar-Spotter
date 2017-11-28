@@ -113,20 +113,23 @@
       (reset! math combined))
     (reset! math []))) ;no math events
 
-; ;fetch html from correct webpage
-; (defn get-handler [name]
-;   (cond
-;     ("h")))
+(defn handle-pysch [html]
+  (reset! pysch "hello"))
 
-
-; TODO - split handler
+;fetch html from correct webpage
 (defn get-webpage [name]
-  (GET (str "/webpage/" name)
-       {:keywords? true
-        :keywordize-keys true
-        :handler handle-math}))
+  (cond
+    (= name "math") (GET (str "/webpage/" name)
+                      {:keywords? true
+                      :keywordize-keys true
+                      :handler handle-math})
+    (= name "pysch") (GET (str "/webpage/" name)
+                      {:keywords? true
+                      :keywordize-keys true
+                      :handler handle-pysch})))
 
 ;gets called when the app starts up to get all data
 ;from the selected departmenets
 (defn get-data []
-  (get-webpage "math"))
+  (get-webpage "math")
+  (get-webpage "pysch"))

@@ -16,7 +16,6 @@
            :class "form-control"
            :type type
            :required ""
-           :value @value
            :on-change #(reset! value (-> % .-target .-value))}])
 
 (defn username-input []
@@ -36,4 +35,5 @@
 
 (defn login-page []
   [:div
-    (print-login)])
+    (print-login)
+    (str (htmldata/get-psych-atom))])

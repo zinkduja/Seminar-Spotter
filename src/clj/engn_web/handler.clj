@@ -62,38 +62,23 @@
 ;; and setup the appropriate middleware wrappers
 ;; ==========================================================================
 
-(defonce state (atom {:greeting "No greeting set yet..." :price "$1"}))
 
-
-(defn get-html [dept]
+(defn get-math-html []
   (let [html (get (client/get "https://as.vanderbilt.edu/math/category/events/") :body)
         index1 (string/index-of html "<div class=\"eventitem\">")
         index2 (string/index-of html "</div><!-- /secmain -->")
         new-html (subs html index1 index2)]
    new-html))
 
+(defn get-pysch-html []
+  (let [html (get (client/get "https://events.vanderbilt.edu/index.php?com=searchresult&t=364") :body)]
+    html))
+
 (defn get-html-handler [dept]
   (cond
-    (= dept "math") (get-html dept)
-    :else "not math"))
-
-;(defn echo-handler [ping pong]
-;  (json {:ping ping :pong pong}))
-
-;(defn greet-handler [name]
-;  (json {:hello name :greeting (:greeting @state)}))
-
-;(defn set-greeting-handler [greeting]
-;  (swap! state assoc :greeting greeting)
-;  (json @state))
-;
-;(defn price-handler [item]
-;  (json {:price (:price @state) :item-name item}))
-;
-;(defn set-price-handler [price]
-;  (swap! state assoc :price price)
-;  (json @state))
-
+    (= dept "math") (get-math-html)
+    (= dept "pysch") (get-pysch-html)
+    :else "not a handled department"))
 
 ;; ==========================================================================
 ;; Functions to setup the list of URI routes for the application
@@ -103,7 +88,6 @@
 (defroutes routes
   (GET "/" request (main-page))
   (GET "/webpage/:dept" [dept] (get-html-handler dept))
-  ;(GET "/echo/:ping" [ping pong] (echo-handler ping pong))
   ;; Routes down here handle static files and not found
   (resources "/")
   (not-found "Not Found"))
