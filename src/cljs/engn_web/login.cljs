@@ -1,7 +1,6 @@
 (ns engn-web.login
-  (:require [engn-web.htmldata :as html_data]
-            [engn-web.prettyprint :as pretty_print]))
-
+  (:require [engn-web.htmldata :as htmldata]
+            [engn-web.prettyprint :as prettyprint]))
 
 ;; ==========================================================================
 ;; Basic login page

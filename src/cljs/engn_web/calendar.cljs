@@ -1,5 +1,5 @@
 (ns engn-web.calendar
-  (:require [engn-web.prettyprint :as pretty_print]))
+  (:require [engn-web.prettyprint :as prettyprint]))
 
 (defn calendar-page []
   [:div
