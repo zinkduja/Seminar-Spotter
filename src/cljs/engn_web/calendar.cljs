@@ -1,12 +1,20 @@
 (ns engn-web.calendar
-  (:require [engn-web.prettyprint :as prettyprint]
-            [reagent-material-ui.core :as ui]))
+  (:require [reagent.core :as reagent]
+            [engn-web.prettyprint :as prettyprint]
+            [reagent-material-ui.core :as ui]
+            [cljs-time.core :as time]
+            [cljs-time.format :as time-format]
+            [cljs-time.coerce :as time-coerce]))
 
+(def el reagent/as-element)
+(defn icon-span [nme] [ui/FontIcon {:className "material-icons"} nme])
+(defn icon [nme] (el [:i.material-icons nme]))
+(defn color [nme] (aget ui/colors nme))
 
 (defn calendar []
   [ui/GridList {:cols "7"}
-   [ui/GridTile {:title "November 1" :subtitle "Math Event @ 5pm" :titleBackground "rgba(255,0,0,1)" :height ".5"}]
-   [ui/GridTile {:title "November 2"}]
+   [ui/GridTile {:title "November 1" :subtitle "Math Event @ 5pm" :titleBackground "rgba(255,0,0,1)"}]
+   [ui/GridTile {:title "November 2" :actionIcon (icon "star_outline")}]
    [ui/GridTile {:title "November 3"}]
    [ui/GridTile {:title "November 4"}]
    [ui/GridTile {:title "November 5"}]
@@ -29,9 +37,8 @@
    [ui/GridTile {:title "November 22"}]
    [ui/GridTile {:title "November 23"}]])
 
-
-
 (defn calendar-page []
   [:div
-    [:h1 "Calendar page."]
+    [:h1 {:className "home-text"} "Calendar page."]
+   [:h2 {:className "home-text font-effect-3d-float"} "November"]
    [calendar]])
