@@ -35,4 +35,6 @@
 
 (defn login-page []
   [:div
-    (print-login)])
+    (print-login)
+    ;(str (htmldata/get-neuro-atom))
+    ])

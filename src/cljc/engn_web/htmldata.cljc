@@ -8,11 +8,14 @@
 
 (defonce math (atom ""))
 (defonce psych (atom ""))
+(defonce neuro (atom ""))
 
 (defn get-math-atom []
   @math)
 (defn get-psych-atom []
   @psych)
+(defn get-neuro-atom []
+  @neuro)
 
 ;; ==========================================================================
 ;; Functions to get the data from the websites
@@ -117,7 +120,7 @@
     (reset! math []))) ;no math events
 
 ;; ==========================================================================
-;; psych functions
+;; PSYCH functions
 ;; ==========================================================================
 
 ;count the number of times a substring occurs in a string
@@ -186,6 +189,48 @@
     (reset! psych []))) ;no psych events
 
 ;; ==========================================================================
+;; PSYCH functions
+;; ==========================================================================
+
+(defn extract-neuro-dates [event]
+  (let [index1 (string/index-of event "<td>")
+        len (count "<td>")
+        index2 (string/index-of event "</td>")
+        date (subs event (+ index1 len) index2)]
+    date))
+
+(defn extract-neuro-topics [event]
+  (let [index1 (string/index-of event "</td>")
+        len (count "</td>")
+        sub1 (subs event (+ index1 len))
+        index2 (string/index-of sub1 "<td>")
+        len2 (count "<td>")
+        index3 (string/index-of sub1 "</td>")
+        topic (subs sub1 (+ index2 len2) index3)]
+    topic))
+
+;(defn extract-neuro-speakers [event]
+;  (let [split (string/split event "<td>")
+;        spkr (get split 3)]
+;    (if (string/includes? spkr "a href")
+;      ;remove
+;      )
+;    (if (string/includes?) spkr "strong")
+;      ;remove
+;      )
+;    spkr))
+
+(defn handle-neuro [html]
+  (if (string/includes? html "<tr>") ;there are neuro events
+    (let [events (subvec (string/split html "<tr>") 1)
+          dates (into [] (map extract-neuro-dates events))
+          topics (into [] (map extract-neuro-topics events))
+        ;  speakers (into [] (map extract-neuro-speakers events))
+        ]
+      (reset! neuro (get events 1)))
+    (reset! neuro []))) ;no neuro events
+
+;; ==========================================================================
 ;; GET HTML functions
 ;; ==========================================================================
 
@@ -199,10 +244,15 @@
     (= name "psych") (GET (str "/webpage/" name)
                       {:keywords? true
                       :keywordize-keys true
-                      :handler handle-psych})))
+                      :handler handle-psych})
+    (= name "neuro") (GET (str "/webpage/" name)
+                      {:keywords? true
+                      :keywordize-keys true
+                      :handler handle-neuro})))
 
 ;gets called when the app starts up to get all data
 ;from the selected departmenets
 (defn get-data []
   (get-webpage "math")
-  (get-webpage "psych"))
+  (get-webpage "psych")
+  (get-webpage "neuro"))

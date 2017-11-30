@@ -77,10 +77,18 @@
         new-html (subs html index1 index2)]
     new-html))
 
+(defn get-neuro-html []
+  (let [html (get (client/get "https://medschool.vanderbilt.edu/brain-institute/neuroscience-seminar-series-student-nanosymposiumforums") :body)
+        index1 (string/index-of html "<tbody>")
+        index2 (string/index-of html "</tbody>")
+        new-html (subs html index1 index2)]
+    new-html))
+
 (defn get-html-handler [dept]
   (cond
     (= dept "math") (get-math-html)
     (= dept "psych") (get-psych-html)
+    (= dept "neuro") (get-neuro-html)
     :else "not a handled department"))
 
 ;; ==========================================================================
