@@ -13,32 +13,55 @@
 
 (defn calendar []
   [ui/GridList {:cols "7"}
-   [ui/GridTile {:title "November 1" :subtitle "Math Event @ 5pm" :titleBackground "rgba(255,0,0,1)"}]
-   [ui/GridTile {:title "November 2" :actionIcon (icon "star_outline")}]
-   [ui/GridTile {:title "November 3"}]
-   [ui/GridTile {:title "November 4"}]
-   [ui/GridTile {:title "November 5"}]
-   [ui/GridTile {:title "November 6"}]
-   [ui/GridTile {:title "November 7"}]
-   [ui/GridTile {:title "November 8"}]
-   [ui/GridTile {:title "November 9"}]
-   [ui/GridTile {:title "November 10"}]
-   [ui/GridTile {:title "November 11"}]
-   [ui/GridTile {:title "November 12"}]
-   [ui/GridTile {:title "November 13"}]
-   [ui/GridTile {:title "November 14"}]
-   [ui/GridTile {:title "November 15"}]
-   [ui/GridTile {:title "November 16"}]
-   [ui/GridTile {:title "November 17"}]
-   [ui/GridTile {:title "November 18"}]
-   [ui/GridTile {:title "November 19"}]
-   [ui/GridTile {:title "November 20"}]
-   [ui/GridTile {:title "November 21"}]
-   [ui/GridTile {:title "November 22"}]
-   [ui/GridTile {:title "November 23"}]])
+   [ui/GridTile {:title "November 1" :subtitle "Math Event @ 5pm" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/TN_day-week-calendar-wednesday-7615A.jpg"}]]
+   [ui/GridTile {:title "November 2" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"} ;;:actionIcon (icon "star_outline")
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-thursday-2.jpg"}]]
+   [ui/GridTile {:title "November 3" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-friday-7615.jpg"}]]
+   [ui/GridTile {:title "November 4" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-saturday-7615.jpg"}]]
+   [ui/GridTile {:title "November 5" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://triumphstrength.net/wp-content/uploads/2017/02/b72aaa11fefe5d19dfb995176b811f53_calendar-clip-art-sundayy-calendar-clipart_172-194.jpeg"}]]
+   [ui/GridTile {:title "November 6" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://thecrystalranch.ca/tcr/wp-content/uploads/2016/01/monday.jpg"}]]
+   [ui/GridTile {:title "November 7" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-thursday-7615.jpg"}]]
+   [ui/GridTile {:title "November 8" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/TN_day-week-calendar-wednesday-7615A.jpg"}]]
+   [ui/GridTile {:title "November 9" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-thursday-2.jpg"}]]
+   [ui/GridTile {:title "November 10" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-friday-7615.jpg"}]]
+   [ui/GridTile {:title "November 11" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-saturday-7615.jpg"}]]
+   [ui/GridTile {:title "November 12" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://triumphstrength.net/wp-content/uploads/2017/02/b72aaa11fefe5d19dfb995176b811f53_calendar-clip-art-sundayy-calendar-clipart_172-194.jpeg"}]]
+   [ui/GridTile {:title "November 13" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://thecrystalranch.ca/tcr/wp-content/uploads/2016/01/monday.jpg"}]]
+   [ui/GridTile {:title "November 14" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-thursday-7615.jpg"}]]
+   [ui/GridTile {:title "November 15" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/TN_day-week-calendar-wednesday-7615A.jpg"}]]
+   [ui/GridTile {:title "November 16" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-thursday-2.jpg"}]]
+   [ui/GridTile {:title "November 17" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-friday-7615.jpg"}]]
+   [ui/GridTile {:title "November 18" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-saturday-7615.jpg"}]]
+   [ui/GridTile {:title "November 19" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://triumphstrength.net/wp-content/uploads/2017/02/b72aaa11fefe5d19dfb995176b811f53_calendar-clip-art-sundayy-calendar-clipart_172-194.jpeg"}]]
+   [ui/GridTile {:title "November 20" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://thecrystalranch.ca/tcr/wp-content/uploads/2016/01/monday.jpg"}]]
+   [ui/GridTile {:title "November 21" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-thursday-7615.jpg"}]]
+   [ui/GridTile {:title "November 22" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/TN_day-week-calendar-wednesday-7615A.jpg"}]]
+   [ui/GridTile {:title "November 23" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-thursday-2.jpg"}]]])
 
 (defn calendar-page []
   [:div
     [:h1 {:className "home-text"} "Calendar page."]
-   [:h2 {:className "home-text font-effect-3d-float"} "November"]
+   [:h1 {:className "home-text font-effect-3d-float"} "November"]
    [calendar]])
