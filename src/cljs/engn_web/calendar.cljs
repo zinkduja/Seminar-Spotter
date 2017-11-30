@@ -12,7 +12,7 @@
 (defn color [nme] (aget ui/colors nme))
 
 (defn calendar []
-  [ui/GridList {:cols "7"}
+  [ui/GridList {:cols 7}
    [ui/GridTile {:title "October 29" :titlePosition "top"}
                 [:img {:src "https://triumphstrength.net/wp-content/uploads/2017/02/b72aaa11fefe5d19dfb995176b811f53_calendar-clip-art-sundayy-calendar-clipart_172-194.jpeg"}]]
    [ui/GridTile {:title "October 30" :titlePosition "top"}
