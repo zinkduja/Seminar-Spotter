@@ -189,9 +189,10 @@
     (reset! psych []))) ;no psych events
 
 ;; ==========================================================================
-;; PSYCH functions
+;; NEURO functions
 ;; ==========================================================================
 
+;for neuro dept, get the dates
 (defn extract-neuro-dates [event]
   (let [index1 (string/index-of event "<td>")
         len (count "<td>")
@@ -199,6 +200,7 @@
         date (subs event (+ index1 len) index2)]
     date))
 
+;for neuro dept, get the topics
 (defn extract-neuro-topics [event]
   (let [index1 (string/index-of event "</td>")
         len (count "</td>")
@@ -209,25 +211,67 @@
         topic (subs sub1 (+ index2 len2) index3)]
     topic))
 
-;(defn extract-neuro-speakers [event]
-;  (let [split (string/split event "<td>")
-;        spkr (get split 3)]
-;    (if (string/includes? spkr "a href")
-;      ;remove
-;      )
-;    (if (string/includes?) spkr "strong")
-;      ;remove
-;      )
-;    spkr))
+;for neuro dept, remove a href html from beginning
+(defn remove-link [html]
+  (if (string/includes? html "a href")
+    (let [sub1 (subs html (string/index-of html "a href"))
+          index1 (string/index-of sub1 ">")
+          index2 (string/index-of sub1 "</a>")]
+      (subs sub1 (+ index1 1) index2))
+    html))
 
+;for neuro dept, remove strong html from begging
+(defn remove-speaker-strong [spkr-html]
+  (if (string/includes? spkr-html "strong")
+    (let [sub1 (subs spkr-html (string/index-of spkr-html "<strong>"))
+          len (count "<strong>")
+          index1 (string/index-of sub1 "</strong>")]
+      (subs sub1 len index1))
+    spkr-html))
+
+;for neuro dept, get the speakers
+(defn extract-neuro-speakers [event]
+  (let [split (string/split event "<td>")
+        spkr (get split 3)
+        sub1 (subs spkr 0 (string/index-of spkr "</td>"))
+        no-link (remove-link sub1)
+        no-strong (remove-speaker-strong no-link)]
+    no-strong))
+
+;for neuro dept, remove <p> html from beginning
+(defn remove-title-p [title-html]
+  (if (string/includes? title-html "<p>")
+    (let [len (count " <p>")
+          index1 (string/index-of title-html "</p>")]
+      (subs title-html len index1))
+    title-html))
+
+;for neuro dept, get the titles
+(defn extract-neuro-titles [event]
+  (let [split (string/split event "<td>")
+        title (get split 4)
+        no-p (remove-title-p title)
+        no-link (remove-link no-p)]
+    (if (string/includes? no-link "TBA")
+      "TBA"
+      no-link)))
+
+;for neuro dept, combine info into dictionary
+(defn combine-neuro [date topic title speaker]
+  {:date date :time "4:10 p.m." :topic topic :title title :speaker speaker
+    :location "1220 Medical Research Building III"})
+
+;for neuro dept, get dates, topics, speakers, titles
+;final - return list of dictionaries
 (defn handle-neuro [html]
   (if (string/includes? html "<tr>") ;there are neuro events
     (let [events (subvec (string/split html "<tr>") 1)
           dates (into [] (map extract-neuro-dates events))
           topics (into [] (map extract-neuro-topics events))
-        ;  speakers (into [] (map extract-neuro-speakers events))
-        ]
-      (reset! neuro (get events 1)))
+          speakers (into [] (map extract-neuro-speakers events))
+          titles (into [] (map extract-neuro-titles events))
+          combined (into [] (map combine-neuro dates topics titles speakers))]
+      (reset! neuro combined))
     (reset! neuro []))) ;no neuro events
 
 ;; ==========================================================================
