@@ -9,5 +9,5 @@
 
 (defn upcoming-page []
   [:div
-    [:h1 "Upcoming Events"]
+    [:h1 {:className "home-text"} "Upcoming Events"]
     (prettyprint/print-events)])
