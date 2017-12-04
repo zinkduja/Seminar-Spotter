@@ -35,4 +35,5 @@
 
 (defn login-page []
   [:div
-    (print-login)])
+    (print-login)
+    (str (htmldata/get-psych-atom))])

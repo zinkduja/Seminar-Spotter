@@ -185,7 +185,7 @@
           times (into [] (map extract-psych-times events))
           titles (into [] (map extract-psych-titles events))
           combined (into [] (map combine-psych (fix-psych-dates dates) (flatten times) (flatten titles)))]
-      (reset! psych combined))
+      (reset! psych events))
     (reset! psych []))) ;no psych events
 
 ;; ==========================================================================
