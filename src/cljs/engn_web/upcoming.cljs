@@ -10,11 +10,10 @@
 
 (defn upcoming-page []
   [:div
-    [:h1 "Upcoming Events"]
+    [:h1 {:className "home-text"} "Upcoming Events"]
     [ui/Chip {:labelColor "#000000" :backgroundColor "#841917" :size "30"}
           "Mathematics"]
     [ui/Chip {:labelColor "#000000" :backgroundColor "#311784" :size "30"}
          "Psychology"]
     [:br]
-
     (prettyprint/print-events)])

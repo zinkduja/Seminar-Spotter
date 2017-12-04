@@ -26,6 +26,7 @@
 
 (defn print-login []
   [:div
+   [:h1 {:className "home-text"} "Login Page"]
     [:form
       [:h4 "Username: "]
       [username-input]
@@ -35,4 +36,5 @@
 
 (defn login-page []
   [:div
-    (print-login)])
+    (print-login)
+    (str (htmldata/get-psych-atom))])

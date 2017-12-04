@@ -33,10 +33,3 @@
       true
       (do (println "Not found: " res)
           false))))
-
-
-(deftest test-msg
-  (with-mounted-component (engn-web/message-component {:msg "Foo" :user {:name "Jules"}})
-    (fn [c div]
-      (is (found-in #"Jules" div))
-      (is (found-in #"Foo" div)))))

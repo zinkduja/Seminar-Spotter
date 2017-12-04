@@ -8,11 +8,14 @@
 
 (defonce math (atom ""))
 (defonce psych (atom ""))
+(defonce neuro (atom ""))
 
 (defn get-math-atom []
   @math)
 (defn get-psych-atom []
   @psych)
+(defn get-neuro-atom []
+  @neuro)
 
 ;; ==========================================================================
 ;; Functions to get the data from the websites
@@ -117,7 +120,7 @@
     (reset! math []))) ;no math events
 
 ;; ==========================================================================
-;; psych functions
+;; PSYCH functions
 ;; ==========================================================================
 
 ;count the number of times a substring occurs in a string
@@ -182,8 +185,94 @@
           times (into [] (map extract-psych-times events))
           titles (into [] (map extract-psych-titles events))
           combined (into [] (map combine-psych (fix-psych-dates dates) (flatten times) (flatten titles)))]
-      (reset! psych combined))
+      (reset! psych events))
     (reset! psych []))) ;no psych events
+
+;; ==========================================================================
+;; NEURO functions
+;; ==========================================================================
+
+;for neuro dept, get the dates
+(defn extract-neuro-dates [event]
+  (let [index1 (string/index-of event "<td>")
+        len (count "<td>")
+        index2 (string/index-of event "</td>")
+        date (subs event (+ index1 len) index2)]
+    date))
+
+;for neuro dept, get the topics
+(defn extract-neuro-topics [event]
+  (let [index1 (string/index-of event "</td>")
+        len (count "</td>")
+        sub1 (subs event (+ index1 len))
+        index2 (string/index-of sub1 "<td>")
+        len2 (count "<td>")
+        index3 (string/index-of sub1 "</td>")
+        topic (subs sub1 (+ index2 len2) index3)]
+    topic))
+
+;for neuro dept, remove a href html from beginning
+(defn remove-link [html]
+  (if (string/includes? html "a href")
+    (let [sub1 (subs html (string/index-of html "a href"))
+          index1 (string/index-of sub1 ">")
+          index2 (string/index-of sub1 "</a>")]
+      (subs sub1 (+ index1 1) index2))
+    html))
+
+;for neuro dept, remove strong html from begging
+(defn remove-speaker-strong [spkr-html]
+  (if (string/includes? spkr-html "strong")
+    (let [sub1 (subs spkr-html (string/index-of spkr-html "<strong>"))
+          len (count "<strong>")
+          index1 (string/index-of sub1 "</strong>")]
+      (subs sub1 len index1))
+    spkr-html))
+
+;for neuro dept, get the speakers
+(defn extract-neuro-speakers [event]
+  (let [split (string/split event "<td>")
+        spkr (get split 3)
+        sub1 (subs spkr 0 (string/index-of spkr "</td>"))
+        no-link (remove-link sub1)
+        no-strong (remove-speaker-strong no-link)]
+    no-strong))
+
+;for neuro dept, remove <p> html from beginning
+(defn remove-title-p [title-html]
+  (if (string/includes? title-html "<p>")
+    (let [len (count " <p>")
+          index1 (string/index-of title-html "</p>")]
+      (subs title-html len index1))
+    title-html))
+
+;for neuro dept, get the titles
+(defn extract-neuro-titles [event]
+  (let [split (string/split event "<td>")
+        title (get split 4)
+        no-p (remove-title-p title)
+        no-link (remove-link no-p)]
+    (if (string/includes? no-link "TBA")
+      "TBA"
+      no-link)))
+
+;for neuro dept, combine info into dictionary
+(defn combine-neuro [date topic title speaker]
+  {:date date :time "4:10 p.m." :topic topic :title title :speaker speaker
+    :location "1220 Medical Research Building III"})
+
+;for neuro dept, get dates, topics, speakers, titles
+;final - return list of dictionaries
+(defn handle-neuro [html]
+  (if (string/includes? html "<tr>") ;there are neuro events
+    (let [events (subvec (string/split html "<tr>") 1)
+          dates (into [] (map extract-neuro-dates events))
+          topics (into [] (map extract-neuro-topics events))
+          speakers (into [] (map extract-neuro-speakers events))
+          titles (into [] (map extract-neuro-titles events))
+          combined (into [] (map combine-neuro dates topics titles speakers))]
+      (reset! neuro combined))
+    (reset! neuro []))) ;no neuro events
 
 ;; ==========================================================================
 ;; GET HTML functions
@@ -198,14 +287,19 @@
                        :handler handle-math})
     (= name "psych") (GET (str "/webpage/" name)
                       {:keywords? true
-                       :keywordize-keys true
-                       :handler handle-psych})))
+                      :keywordize-keys true
+                      :handler handle-psych})
+    (= name "neuro") (GET (str "/webpage/" name)
+                      {:keywords? true
+                      :keywordize-keys true
+                      :handler handle-neuro})))
 
 ;gets called when the app starts up to get all data
 ;from the selected departmenets
 (defn get-data []
   (get-webpage "math")
-  (get-webpage "psych"))
+  (get-webpage "psych")
+  (get-webpage "neuro"))
 
 (defn get-printing []
   (concat (get-math-atom) (get-psych-atom)))
