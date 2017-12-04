@@ -98,7 +98,7 @@
 
 ;for math dept, combine info into dictionary
 (defn combine-math [date topic title speaker loc summary]
-  {:date date :topic topic :title title :speaker speaker :location loc :summary summary})
+  {:date date :topic topic :title title :speaker speaker :location loc :summary summary :titleColor "#841917"})
 
 ;for math dept, get dates, times, location, speaker, topic, title, summary
 ;final - return list of dictionaries
@@ -171,7 +171,7 @@
 
 ;for psych dept, combine info into dictionary
 (defn combine-psych [date time title]
-  {:date (into [] date) :time time :title title})
+  {:date (into [] date) :time time :title title :titleColor "#311784"})
 
 ;for psych dept, get dates, times, titles
 ;final - return list of dictionaries
@@ -194,15 +194,18 @@
   (cond
     (= name "math") (GET (str "/webpage/" name)
                       {:keywords? true
-                      :keywordize-keys true
-                      :handler handle-math})
+                       :keywordize-keys true
+                       :handler handle-math})
     (= name "psych") (GET (str "/webpage/" name)
                       {:keywords? true
-                      :keywordize-keys true
-                      :handler handle-psych})))
+                       :keywordize-keys true
+                       :handler handle-psych})))
 
 ;gets called when the app starts up to get all data
 ;from the selected departmenets
 (defn get-data []
   (get-webpage "math")
   (get-webpage "psych"))
+
+(defn get-printing []
+  (concat (get-math-atom) (get-psych-atom)))

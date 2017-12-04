@@ -65,9 +65,6 @@
 ;      [ui/RaisedButton {:label "Set Server Price"
 ;                        :on-click #(set-price! (:price-for-server @state))}]]])
 
-;<link href="https://fonts.googleapis.com/css?family=Spectral+SC&effect=3d-float" rel="stylesheet">
-;font-family: 'Spectral SC', serif;
-
 (defn home-page []
   [:div
     [:h1 {:className "home-text font-effect-3d-float"} "Seminar Spotter"]
@@ -80,12 +77,12 @@
       [ui/Tabs
        [ui/Tab {:label "Home"}
         (home-page)]
-       [ui/Tab {:label "Login"}
-        (login/login-page)]
        [ui/Tab {:label "Upcoming Events"}
         (upcoming/upcoming-page)]
        [ui/Tab {:label "Calendar"}
-        (calendar/calendar-page)]]])
+        (calendar/calendar-page)]
+       [ui/Tab {:label "Login"}
+        (login/login-page)]]])
 
 ;; -------------------------
 ;; Routes
