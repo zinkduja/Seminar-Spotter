@@ -69,9 +69,9 @@
                 [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-friday-7615.jpg"}]]
    [ui/GridTile {:title "December 23" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
                 [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-saturday-7615.jpg"}]]
-   [ui/GridTile {:title "December 24" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+   [ui/GridTile {:title "December 24" :titleBackground "rgba(255,0,0,1)" :subtitle "Christmas Eve" :titlePosition "top"}
                 [:img {:src "https://triumphstrength.net/wp-content/uploads/2017/02/b72aaa11fefe5d19dfb995176b811f53_calendar-clip-art-sundayy-calendar-clipart_172-194.jpeg"}]]
-   [ui/GridTile {:title "December 25" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
+   [ui/GridTile {:title "December 25" :titleBackground "rgba(255,0,0,1)" :subtitle "Christmas" :titlePosition "top"}
                 [:img {:src "https://thecrystalranch.ca/tcr/wp-content/uploads/2016/01/monday.jpg"}]]
    [ui/GridTile {:title "December 26" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
                 [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-thursday-7615.jpg"}]]
@@ -82,7 +82,9 @@
    [ui/GridTile {:title "December 29" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
                 [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-friday-7615.jpg"}]]
    [ui/GridTile {:title "December 30" :titleBackground "rgba(255,0,0,1)" :titlePosition "top"}
-                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-saturday-7615.jpg"}]]])
+                [:img {:src "https://classroomclipart.com/images/gallery/Clipart/Calendar/day-week-calendar-saturday-7615.jpg"}]]
+   [ui/GridTile {:title "December 31" :titleBackground "rgba(255,0,0,1)" :subtitle "New Year's Eve" :titlePosition "top"}
+                [:img {:src "https://triumphstrength.net/wp-content/uploads/2017/02/b72aaa11fefe5d19dfb995176b811f53_calendar-clip-art-sundayy-calendar-clipart_172-194.jpeg"}]]])
 
 (defn previousButton []
   [ui/RaisedButton {:label "Previous Month" :fullWidth true}])
