@@ -26,6 +26,7 @@
 
 (defn print-login []
   [:div
+   [:h1 {:className "home-text"} "Login Page"]
     [:form
       [:h4 "Username: "]
       [username-input]
