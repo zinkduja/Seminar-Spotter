@@ -14,12 +14,6 @@
             (extract-math-dates "<span class=\"datetime\"></span>")))
     ))
 
-;(deftest test-sep-math-date-time
-;  (testing "Testing correct separating of date, year, and time for a math event"
-;    (is (= ["December 6" "2017" "4:10 pm"]
-;            (sep-math-date-time "December 6, 2017 (Wednesday), 4:10 pm")))
-;    ))
-
 (deftest test-extract-math-topics
   (testing "Testing correct extracting the topic from a math event"
     (is (= "Colloquium"
@@ -67,7 +61,7 @@
     ))
 
 (deftest test-combine-math
-  (testing "Testing correct combinging the info for a math event"
+  (testing "Testing correct combining of the info for a math event"
     (is (= {:date ["date"] :topic "topic" :title "title" :speaker "speaker" :location "loc" :summary "summary"}
             (combine-math ["date"] "topic" "title" "speaker" "loc" "summary")))
     (is (= {:date ["date"] :topic "topic" :title "title" :speaker "" :location "loc" :summary ""}
@@ -86,23 +80,8 @@
             (count-substring "none" "sub")))
     ))
 
-;(deftest test-extract-psych-dates
-;  (testing "Testing correct counting of a substring"
-;    (is (= [[" December 05" " 2017"]]
-;            (extract-psych-dates "Tuesday, December 05, 2017</strong>html
-;            <time datetime=\"somedate\">12:10 PM - 1:00 PM</time> morehtml")))
-;    (is (= [[""]]
-;            (extract-psych-dates "</strong>html<time datetime=\"somedate\">
-;            12:10 PM - 1:00 PM</time> morehtml")))
-;    (is (= [[" December 05" " 2017"] [" December 05" " 2017"]]
-;            (extract-psych-dates "Wednesday, December 06, 2017</strong>html
-;            <time datetime=\"somedate\">12:05 PM - 1:00 PM</time> morehtml
-;            <time datetime=\"2017-12-06T04:10:00.0-06:00\"> 4:10 PM - 5:10 PM
-;            </time> morehtml")))
-;    ))
-
 (deftest test-fix-psych-dates
-  (testing "Testing correct counting of a substring"
+  (testing "Testing correct flattening of psych dates"
     (is (= [[" December 05" " 2017"] [" December 05" " 2017"] [" December 07" " 2017"]]
             (fix-psych-dates [[[" December 05" " 2017"] [" December 05" " 2017"]] [[" December 07" " 2017"]]])))
     (is (= [[" December 05" " 2017"] [" December 05" " 2017"] ["" ""]]
@@ -110,9 +89,79 @@
     ))
 
 (deftest test-sep-psych-times
-  (testing "Testing correct counting of a substring"
-    (is (= [[" December 05" " 2017"] [" December 05" " 2017"] [" December 07" " 2017"]]
-            (sep-psych-times [[[" December 05" " 2017"] [" December 05" " 2017"]] [[" December 07" " 2017"]]])))
-    (is (= [[" December 05" " 2017"] [" December 05" " 2017"] ["" ""]]
-            (sep-psych-times [[[" December 05" " 2017"] [" December 05" " 2017"]] [["" ""]]])))
+  (testing "Testing correct extracting of a time for a psych event"
+    (is (= "12:10 PM - 1:00 PM"
+            (sep-psych-times " datetime=\"time\">12:10 PM - 1:00 PM</time> - html")))
+    (is (= "4:10 PM - 5:10 PM"
+            (sep-psych-times "datetime=\"time\">4:10 PM - 5:10 PM</time> - html")))
+    (is (= ""
+            (sep-psych-times "datetime=\"time\"></time> - html")))
+    ))
+
+(deftest test-sep-psych-titles
+  (testing "Testing correct extracting of a title for a psych event"
+    (is (= "Clinical Science Brown Bag Series"
+            (sep-psych-titles "<a href=link>Clinical Science Brown Bag Series</a>")))
+    (is (= ""
+            (sep-psych-titles "<a href=link></a>")))
+    ))
+
+(deftest test-combine-psych
+  (testing "Testing correct combining of the info for a psych event"
+    (is (= {:date ["date"] :time "time" :title "title"}
+            (combine-psych ["date"] "time" "title")))
+    ))
+
+;; ==========================================================================
+;; Test NEURO functions
+;; ==========================================================================
+
+(deftest test-extract-neuro-dates
+  (testing "Testing correct extracting of a date for a neuro event"
+    (is (= "Date here"
+            (extract-neuro-dates "<td>Date here</td>")))
+    (is (= ""
+            (extract-neuro-dates "<td></td>")))
+    ))
+
+(deftest test-extract-neuro-topics
+  (testing "Testing correct extracting of a topic for a neuro event"
+    (is (= "Topic"
+            (extract-neuro-topics "<td>Date here</td> <td>Topic</td>")))
+    (is (= ""
+            (extract-neuro-topics "<td>Date here</td> <td></td>")))
+    ))
+
+(deftest test-remove-link
+  (testing "Testing correct removing of a starting link for a neuro event"
+    (is (= "link text"
+            (remove-link "<stuff><a href=link>link text</a>")))
+    (is (= "<no link here>"
+            (remove-link "<no link here>")))
+    ))
+
+(deftest test-remove-speaker-strong
+  (testing "Testing correct removing of a starting <strong> for a neuro event"
+    (is (= "Speaker Name"
+            (remove-speaker-strong "<stuff><strong>Speaker Name</strong>")))
+    (is (= "<no work here>"
+            (remove-speaker-strong "<no work here>")))
+    ))
+
+(deftest test-remove-title-p
+  (testing "Testing correct removing of a <p> for a neuro event"
+    (is (= "Title"
+            (remove-title-p " <p>Title</p>")))
+    (is (= "<no work here>"
+            (remove-title-p "<no work here>")))
+    ))
+
+(deftest test-combine-neuro
+  (testing "Testing correct combining of the info for a neuro event"
+    (is (= {:date ["date"] :time "4:10 p.m." :topic "topic" :title "title" :speaker "speaker"
+            :location "1220 Medical Research Building III"}
+            (combine-neuro ["date"] "topic" "title" "speaker")))
+    (is (= {:date ["date"] :time "4:10 p.m." :topic "" :title "title" :speaker ""
+            :location "1220 Medical Research Building III"}
+            (combine-neuro ["date"] "" "title" "")))
     ))

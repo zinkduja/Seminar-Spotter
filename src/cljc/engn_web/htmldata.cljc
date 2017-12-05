@@ -185,7 +185,7 @@
           times (into [] (map extract-psych-times events))
           titles (into [] (map extract-psych-titles events))
           combined (into [] (map combine-psych (fix-psych-dates dates) (flatten times) (flatten titles)))]
-      (reset! psych events))
+      (reset! psych combined))
     (reset! psych []))) ;no psych events
 
 ;; ==========================================================================
@@ -220,7 +220,7 @@
       (subs sub1 (+ index1 1) index2))
     html))
 
-;for neuro dept, remove strong html from begging
+;for neuro dept, remove strong html from beginning
 (defn remove-speaker-strong [spkr-html]
   (if (string/includes? spkr-html "strong")
     (let [sub1 (subs spkr-html (string/index-of spkr-html "<strong>"))
