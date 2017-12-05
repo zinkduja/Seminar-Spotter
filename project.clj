@@ -23,7 +23,8 @@
                  [venantius/accountant "0.2.0"
                   :exclusions [org.clojure/tools.reader]]
                  [auth0-ring "0.1.0"]
-                 [clj-http "2.3.0"]]
+                 [clj-http "2.3.0"]
+                 [clj-time "0.14.2"]]
 
   :plugins [[lein-environ "1.0.2"]
             [lein-cljsbuild "1.1.5"]
